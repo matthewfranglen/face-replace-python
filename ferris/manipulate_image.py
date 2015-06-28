@@ -2,43 +2,38 @@
 
 import PIL.ImageDraw
 
-# pylint: disable=no-self-use, no-member
+def box_faces(images):
+    """ Add borders to all detected faces """
+    for image in images:
+        _box_faces(image)
 
-class ImageManipulator(object):
-    """ Handles changing images """
+def _box_faces(image):
+    """ Add borders to all detected faces """
+    for face in image.faces:
+        _box_face(image, face)
 
-    def box_faces(self, images):
-        """ Add borders to all detected faces """
-        for image in images:
-            self._box_faces(image)
+def _box_face(image, face):
+    """ Add borders to detected face """
+    draw = PIL.ImageDraw.Draw(image.image)
+    draw.rectangle(face, outline=(127, 255, 0))
 
-    def _box_faces(self, image):
-        """ Add borders to all detected faces """
-        for face in image.faces:
-            self._box_face(image, face)
+def get_faces(image):
+    """ Returns images reduced to just the face """
+    return [image.crop(face) for face in image.faces]
 
-    def _box_face(self, image, face):
-        """ Add borders to detected face """
-        draw = PIL.ImageDraw.Draw(image.image)
-        draw.rectangle(face, outline=(127, 255, 0))
+def merge_faces(merge, images):
+    """ Merge image onto all detected faces """
+    for image in images:
+        _merge_faces(merge, image)
 
-    def get_faces(self, image):
-        """ Returns images reduced to just the face """
-        return [image.crop(face) for face in image.faces]
+def _merge_faces(merge, image):
+    """ Merge image onto all detected faces """
+    for face in image.faces:
+        _merge_face(merge, image, face)
 
-    def merge_faces(self, merge, images):
-        """ Merge image onto all detected faces """
-        for image in images:
-            self._merge_faces(merge, image)
-
-    def _merge_faces(self, merge, image):
-        """ Merge image onto all detected faces """
-        for face in image.faces:
-            self._merge_face(merge, image, face)
-
-    def _merge_face(self, merge, image, face):
-        """ Merge image onto detected face """
-        scaled = merge.image.resize((face.width, face.height))
-        image.image.paste(scaled, face.as_tuple())
+def _merge_face(merge, image, face):
+    """ Merge image onto detected face """
+    scaled = merge.image.resize((face.width, face.height))
+    image.image.paste(scaled, face.as_tuple())
 
 # vim: set ai et sw=4 syntax=python
