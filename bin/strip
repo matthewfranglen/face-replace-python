@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+INPUT_VIDEO="${1:?Must provide input video}"
+OUTPUT_FOLDER="${2:?Must provide output folder}"
+FRAMES_PER_SECOND="${3:-25}"
+
+ffmpeg -i "${INPUT_VIDEO}" -r "${FRAMES_PER_SECOND}" "${OUTPUT_FOLDER}/%04d.png"
+
+# vim: set ai et sw=4 syntax=zsh

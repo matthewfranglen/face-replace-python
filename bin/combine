@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+INPUT_FOLDER="${1:?Must provide input video}"
+OUTPUT_VIDEO="${2:?Must provide output folder}"
+FRAMES_PER_SECOND="${3:-25}"
+
+# saves as .webm
+
+ffmpeg -i "${INPUT_FOLDER}/%04d.png" -r "${FRAMES_PER_SECOND}" -vcodec libvpx "${OUTPUT_VIDEO}"
+
+# vim: set ai et sw=4 syntax=zsh
