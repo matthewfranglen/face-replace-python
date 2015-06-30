@@ -15,7 +15,7 @@ def _box_faces(image):
 def _box_face(image, face):
     """ Add borders to detected face """
     draw = PIL.ImageDraw.Draw(image.image)
-    draw.rectangle(face.as_tuple(), outline="yellow")
+    draw.rectangle(face.as_box(), outline="yellow")
 
 def get_faces(image):
     """ Returns images reduced to just the face """
@@ -33,7 +33,7 @@ def _merge_faces(merge, image):
 
 def _merge_face(merge, image, face):
     """ Merge image onto detected face """
-    scaled = merge.image.resize((face.width, face.height))
-    image.image.paste(scaled, face.as_tuple())
+    scaled = merge.image.resize(face.as_dimension())
+    image.image.paste(scaled, face.as_box(), mask=scaled)
 
 # vim: set ai et sw=4 syntax=python
