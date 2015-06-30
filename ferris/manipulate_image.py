@@ -15,7 +15,7 @@ def _box_faces(image):
 def _box_face(image, face):
     """ Add borders to detected face """
     draw = PIL.ImageDraw.Draw(image.image)
-    draw.rectangle(face, outline=(127, 255, 0))
+    draw.rectangle(face.as_tuple(), outline="yellow")
 
 def get_faces(image):
     """ Returns images reduced to just the face """

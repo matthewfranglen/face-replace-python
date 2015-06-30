@@ -1,8 +1,9 @@
 """ Handles detecting faces in images """
 
-# pylint: disable=no-member
+# pylint: disable=no-member, star-args
 
 import cv2
+from .models import Face
 from .settings import IMAGE_CLASSIFIER_FILE
 
 CLASSIFIER = cv2.CascadeClassifier(IMAGE_CLASSIFIER_FILE)
@@ -20,6 +21,6 @@ def _detect_faces(image):
         return
 
     faces[:, 2:] += faces[:, :2]
-    image.faces = faces
+    image.faces = [Face(*face) for face in faces]
 
 # vim: set ai et sw=4 syntax=python

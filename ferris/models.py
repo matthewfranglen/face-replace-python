@@ -36,19 +36,14 @@ class Image(object):
 class Face(object):
     """ A detected face in a picture """
 
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    def __init__(self, left, top, right, bottom):
+        self.left = left
+        self.top = top
+        self.right = right
+        self.bottom = bottom
 
     def as_tuple(self):
         """ Returns a tuple for PIL.Image use """
-        left = self.x
-        upper = self.y
-        right = self.x + self.width
-        lower = self.y + self.height
-
-        return (left, upper, right, lower)
+        return (self.left, self.top, self.right, self.bottom)
 
 # vim: set ai et sw=4 syntax=python
