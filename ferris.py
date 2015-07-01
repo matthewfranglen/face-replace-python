@@ -8,31 +8,35 @@ from ferris.models import Image
 
 # pylint: disable=invalid-name
 
+def _load_merge_face(merge_face_path, merge_image_path):
+    """ Loads the two images,
+        uses the merge_face to detect the face region
+        and then crops that area from the image.
+        This allows the image to be altered to merge better. """
+
+    face = Image('merge', path=merge_face_path)
+    image = Image('merge', path=merge_image_path)
+    list(detect_faces([face])) # force evaluation
+
+    return image.crop(face.faces[0])
+
 if __name__ == "__main__":
     if len(argv) < 5:
-        print "Requires merge face and image, source directory and destination directory"
+        print "Requires merge face and image,"
+        print "source and destination directories"
         exit(1)
 
-    merge_face_path = argv[1]
-    merge_image_path = argv[2]
+    print "Loading merge images..."
+    merge_face = _load_merge_face(argv[1], argv[2])
+
     source_directory = argv[3]
     destination_directory = argv[4]
 
-    print "Loading images..."
-    merge_face = Image('merge', path=merge_face_path)
-    merge_image = Image('merge', path=merge_image_path)
-    images = load_images(source_directory)
-
-    print "Detecting faces..."
-    detect_faces(images + [merge_face])
-
-    merge_face = merge_image.crop(merge_face.faces[0])
-
-    print "Changing faces..."
-    merge_faces(merge_face, images)
-
-    print "Saving results..."
-    save_images(images, destination_directory)
+    print "Starting..."
+    io_pipe = load_images(source_directory)
+    detect_pipe = detect_faces(io_pipe)
+    merge_pipe = merge_faces(merge_face, detect_pipe)
+    save_images(merge_pipe, destination_directory)
     print "Done!"
 
 # vim: set ai et sw=4 syntax=python

@@ -5,11 +5,11 @@ from .models import Image
 
 def load_images(source_directory):
     """ Loads the images from the source_directory """
-    return [
+    return (
         Image(filename, source_directory)
         for filename
         in listdir(source_directory)
-    ]
+    )
 
 def save_images(images, destination_directory):
     """ Saves the images to the destination_directory """

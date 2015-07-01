@@ -10,17 +10,18 @@ CLASSIFIER = cv2.CascadeClassifier(IMAGE_CLASSIFIER_FILE)
 
 def detect_faces(images):
     """ Detect faces in all provided images """
-    for image in images:
-        _detect_faces(image)
+    return (_detect_faces(image) for image in images)
 
 def _detect_faces(image):
     """ Detect faces in the provided image """
     faces = CLASSIFIER.detectMultiScale(image.cv_image)
 
     if len(faces) == 0:
-        return
+        return image
 
     faces[:, 2:] += faces[:, :2]
     image.faces = [Face(*face) for face in faces]
+
+    return image
 
 # vim: set ai et sw=4 syntax=python
