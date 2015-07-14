@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 INPUT_FOLDER="${1:?Must provide input folder}"
 INPUT_AUDIO="${2:?Must provide input audio file}"
@@ -9,6 +9,4 @@ FRAMES_PER_SECOND="${4:-25}"
 
 ffmpeg -i "${INPUT_FOLDER}/%04d.png" -i "${INPUT_AUDIO}" -f mp4 -q:v 0 -vcodec mpeg4 -r "${FRAMES_PER_SECOND}" "${OUTPUT_VIDEO}"
 
-# ffmpeg -i "${INPUT_FOLDER}/%04d.png" -i "${INPUT_AUDIO}" -vcodec libx264 -r "${FRAMES_PER_SECOND}" "${OUTPUT_VIDEO}"
-
-# vim: set ai et sw=4 syntax=zsh
+# vim: set ai et sw=4 syntax=sh
